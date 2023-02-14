@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../theme";
 import MUIDrawer from "./MUIDrawer";
+import { UserProfile } from "./userPropfile";
 
 const Pages = ({ to, text, onClick }) => {
   return (
@@ -52,11 +53,7 @@ export const Topbar = ({ setDisplayNone, setDisplayBlock }) => {
         </Box>
         {localStorage.getItem("token") ? (
           <Box>
-            <IconButton>
-              <AccountCircleOutlined
-                sx={{ color: "neutral.light", fontSize: "30px" }}
-              />
-            </IconButton>
+            <UserProfile/>
           </Box>
         ) : (
           <Box display="flex" width="150px" justifyContent="space-between">

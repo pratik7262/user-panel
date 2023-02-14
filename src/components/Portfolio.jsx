@@ -2,15 +2,25 @@ import { Box, Button, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
+import DetailsModal from "./DetailsModal";
 import { Header } from "./Header";
 import SellModal from "./SellModal";
 
 function Portfolio() {
-  const [open, setOpen] = React.useState(false);
-  const [propertyInfo, setPropertyInfo] = useState({});
-  const [investedProperties, setInvestedProperties] = useState([]);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = React.useState(false);//states open of invest modal
+  const [dOpen, setDopen] = React.useState(false);//states open of detaols modal
+
+  const [propertyInfo, setPropertyInfo] = useState({});//sets property info of details and invest modal
+  const [investedProperties, setInvestedProperties] = useState([]);//states all invested properties
+  const handleOpen = () => setOpen(true);//handle open of invest modal
+  const handleDopen = () => {
+    setDopen(true);
+  };//handles open of details modal
+  const handleClose = () => {
+    setOpen(false);
+    setDopen(false);
+  };//handles onclose
+  
   const getProperties = async () => {
     const resp = await fetch(
       "http://localhost:5000/api/invested/specificinvestedproperty",
@@ -23,14 +33,23 @@ function Portfolio() {
       }
     );
     const json = await resp.json();
-    console.log(json)
+    console.log(json);
     setInvestedProperties(json.investedProperty);
   };
+
+  //function for getting details
+  const getDetails = async (id) => {
+    const responce = await fetch(
+      `http://localhst:5000/api/property/propertyinfo/${id}`
+    );
+
+    const json = await responce.json();
+    console.log(json);
+  };
+
   useEffect(() => {
     getProperties();
-    
   }, []);
- 
 
   const columns = [
     {
@@ -67,7 +86,14 @@ function Portfolio() {
       flex: 1,
       renderCell: ({ row: { id } }) => {
         return (
-          <Button color="blue" variant="contained">
+          <Button
+            color="blue"
+            onClick={() => {
+              handleDopen();
+              getDetails(id)
+            }}
+            variant="contained"
+          >
             details
           </Button>
         );
@@ -79,9 +105,16 @@ function Portfolio() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { id,name } }) => {
+      renderCell: ({ row: { id, name } }) => {
         return (
-          <Button onClick={()=>{setPropertyInfo({id:id,name:name});handleOpen()}} color="blue" variant="contained">
+          <Button
+            onClick={() => {
+              setPropertyInfo({ id: id, name: name });
+              handleOpen();
+            }}
+            color="blue"
+            variant="contained"
+          >
             sell
           </Button>
         );
@@ -129,6 +162,7 @@ function Portfolio() {
             open={open}
             handleClose={handleClose}
           />
+          <DetailsModal handleClose={handleClose}  open={dOpen} />
         </Box>
       </Box>
     </>

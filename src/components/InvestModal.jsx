@@ -38,7 +38,6 @@ const InvestModal = ({ handleClose, open, propertyInfo,url,}) => {
       id: propertyInfo.id,
       name: propertyInfo.name,
       units: units,
-      
     }
     const json = await response.json();
     console.log(data)
