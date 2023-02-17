@@ -1,15 +1,16 @@
-import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Paper, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import { colors } from "../theme";
 
-import CardItemContainer from "./CardItemContainer";
+const Typo = ({ text }) => {
+  return (
+    <Typography sx={{ my: "15px", color: colors.grey[100] }} variant="h1">
+      {text}
+    </Typography>
+  );
+};
 
 const Home = () => {
-  const [property, setProperty] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/api/property/approvedproperties") //api for the get request
-      .then((response) => response.json())
-      .then((data) => setProperty(data.properties));
-  }, []);
   return (
     <Box
       mt={9}
@@ -18,7 +19,28 @@ const Home = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <CardItemContainer arr={property} />
+      <Paper
+        sx={{
+          // backgroundImage: "url('https://th.bing.com/th/id/OIP.fIMrRGpQAs9WN3PA9Q_SPAHaEK?pid=ImgDet&rs=1')",
+          width: "80vw",
+          height: "75vh",
+          p: 4,
+          bgcolor: colors.primary[400],
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Typo text="Redefining and Democratising" />
+        <Typo text="Buying and Selling" />
+        <Typo text="Real Estate" />
+        <Link to={'/properties'} style={{textDecoration:'none',marginTop:'15px',color:'white'}}>
+          <Button color="blue" variant="contained">
+            Show New Properties
+          </Button>
+        </Link>
+      </Paper>
     </Box>
   );
 };

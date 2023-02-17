@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import { colors } from "../theme";
+
 export const Header = (props) => {
   return (
     <Paper  elevation={4} sx={{p:2,bgcolor:colors.primary[400],maxWidth:350}}>

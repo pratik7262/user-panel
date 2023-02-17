@@ -7,20 +7,33 @@ import { Header } from "./Header";
 import SellModal from "./SellModal";
 
 function Portfolio() {
-  const [open, setOpen] = React.useState(false);//states open of invest modal
-  const [dOpen, setDopen] = React.useState(false);//states open of detaols modal
+  const [open, setOpen] = React.useState(false); //states open of invest modal
+  const [dOpen, setDopen] = React.useState(false); //states open of detaols modal
 
-  const [propertyInfo, setPropertyInfo] = useState({});//sets property info of details and invest modal
-  const [investedProperties, setInvestedProperties] = useState([]);//states all invested properties
-  const handleOpen = () => setOpen(true);//handle open of invest modal
+  const [propertyInfo, setPropertyInfo] = useState({}); //sets property info of details and invest modal
+  const [investedProperties, setInvestedProperties] = useState([]); //states all invested properties
+  const handleOpen = () => setOpen(true); //handle open of invest modal
   const handleDopen = () => {
     setDopen(true);
-  };//handles open of details modal
+  }; //handles open of details modal
   const handleClose = () => {
     setOpen(false);
     setDopen(false);
-  };//handles onclose
-  
+  }; //handles onclose
+
+  const isSold = async (propertyId, name) => {
+    const res = await fetch(
+      `http://localhost:5000/api/property/issold/${propertyId}`
+    );
+    const json = await res.json();
+    if (!json.sold) {
+      alert("Property Is Not Sold Yet.");
+    } else {
+      setPropertyInfo({ propertyId: propertyId, name: name });
+      handleOpen();
+    }
+  };
+
   const getProperties = async () => {
     const resp = await fetch(
       "http://localhost:5000/api/invested/specificinvestedproperty",
@@ -33,18 +46,17 @@ function Portfolio() {
       }
     );
     const json = await resp.json();
-    console.log(json);
     setInvestedProperties(json.investedProperty);
   };
 
   //function for getting details
-  const getDetails = async (id) => {
+  const getDetails = async (propertyId) => {
     const responce = await fetch(
-      `http://localhst:5000/api/property/propertyinfo/${id}`
+      `http://localhost:5000/api/property/propertyinfo/${propertyId}`
     );
 
     const json = await responce.json();
-    console.log(json);
+    setPropertyInfo(json);
   };
 
   useEffect(() => {
@@ -84,13 +96,13 @@ function Portfolio() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { id } }) => {
+      renderCell: ({ row: { propertyId } }) => {
         return (
           <Button
             color="blue"
             onClick={() => {
               handleDopen();
-              getDetails(id)
+              getDetails(propertyId);
             }}
             variant="contained"
           >
@@ -105,12 +117,12 @@ function Portfolio() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { id, name } }) => {
+      renderCell: ({ row: { propertyId, name } }) => {
         return (
           <Button
             onClick={() => {
-              setPropertyInfo({ id: id, name: name });
-              handleOpen();
+             
+              isSold(propertyId, name);
             }}
             color="blue"
             variant="contained"
@@ -162,7 +174,11 @@ function Portfolio() {
             open={open}
             handleClose={handleClose}
           />
-          <DetailsModal handleClose={handleClose}  open={dOpen} />
+          <DetailsModal
+            handleClose={handleClose}
+            property={propertyInfo}
+            open={dOpen}
+          />
         </Box>
       </Box>
     </>

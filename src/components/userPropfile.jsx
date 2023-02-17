@@ -11,7 +11,7 @@ import {
   ListItemText,
   Menu,
   Typography,
-  Box
+  Box,
 } from "@mui/material";
 import React from "react";
 import { AccountCircleOutlined, Logout } from "@mui/icons-material";
@@ -20,29 +20,35 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { colors } from "../theme";
 
-
 export const UserProfile = () => {
   const { el, open, onClick, onClose } = useToggle();
-  const [user, setUser] = useState({})
-  const getUser=async ()=>{
-        const res=await fetch('http://localhost:5000/api/auth/fetchuser')
-        const json=await res.json()
-        setUser(json.user)
-  }
+  const [user, setUser] = useState({});
+  const getUser = async () => {
+    const res = await fetch("http://localhost:5000/api/auth/fetchuser", {
+      headers: {
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const json = await res.json();
+    setUser(json.user);
+  };
   useEffect(() => {
-    // getUser()
+    getUser();
     // eslint-disable-next-line
-  }, [])
-  
-  const logOut=()=>{
-    alert('loged out')
-  }
+  }, []);
+
+  const logOut = () => {
+    alert("loged out");
+  };
   return (
     <Box sx={{ px: 1, mt: 1 }}>
       <Button id="basic-button" onClick={onClick}>
         <AccountCircleOutlined
           sx={{ color: "neutral.light", fontSize: "30px" }}
         />
+        <Typography ml={1} fontWeight={600} sx={{color:colors.grey[100]}}  variant="h3" >
+          {user.name}
+        </Typography>
       </Button>
       <Menu
         anchorEl={el}
@@ -53,11 +59,9 @@ export const UserProfile = () => {
       >
         <ListItem onClick={logOut} sx={{ pt: 1, pb: 1 }} alignItems="center">
           <ListItemAvatar>
-            <Logout sx={{ color: colors.primary[400], fontSize: "30px" }}/>
+            <Logout sx={{ color: colors.primary[400], fontSize: "30px" }} />
           </ListItemAvatar>
-          <ListItemText
-            primary='Log Out'
-          />
+          <ListItemText primary="Log Out" />
         </ListItem>
       </Menu>
     </Box>

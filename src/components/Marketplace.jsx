@@ -23,6 +23,7 @@ function Marketplace() {
     );
     const json = await resp.json();
     setInvestedProperties(json.listedProperty);
+    console.log(json.listedProperty)
   };
   useEffect(() => {
     getProperties();
@@ -61,7 +62,7 @@ function Marketplace() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { id } }) => {
+      renderCell: ({ row: { propertyId } }) => {
         return (
           <Button color="blue" variant="contained">
             details
@@ -75,9 +76,25 @@ function Marketplace() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { id,name,user} }) => {
+      renderCell: ({ row: { propertyId, name, user } }) => {
+        let isOwner = false;
+        const setIsOwner = () => {
+          if (user === localStorage.getItem("userId")) {
+            isOwner = true;
+            return isOwner;
+          }
+          return false;
+        };
         return (
-          <Button onClick={()=>{setPropertyInfo({id,name,user});handleOpen()}} color="blue" variant="contained">
+          <Button
+            disabled={setIsOwner()}
+            onClick={() => {
+              setPropertyInfo({ propertyId, name, user });
+              handleOpen();
+            }}
+            color="blue"
+            variant="contained"
+          >
             Invest
           </Button>
         );
@@ -123,7 +140,7 @@ function Marketplace() {
           <InvestModal
             propertyInfo={propertyInfo}
             open={open}
-            url='http://localhost:5000/api/invested/investinlistedproperty'
+            url="http://localhost:5000/api/invested/investinlistedproperty"
             handleClose={handleClose}
           />
         </Box>

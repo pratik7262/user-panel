@@ -17,6 +17,7 @@ const NewProperties = () => {
   const [propertyInfo, setPropertyInfo] = React.useState({});
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
   useEffect(() => {
     fetch("http://localhost:5000/api/property/approvedproperties") //api for the get request
       .then((response) => response.json())
@@ -79,13 +80,15 @@ const NewProperties = () => {
                     color="blue"
                     onClick={() => {
                       setPropertyInfo({
-                        id: item._id,
+                        
                         name: item.title,
                         sellerId: "",
+                        propertyId: item._id,
                       });
                       handleOpen();
                     }}
                     variant="contained"
+                    disabled={item.user===localStorage.userId}
                   >
                     Invest
                   </Button>

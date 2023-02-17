@@ -46,13 +46,14 @@ export const Topbar = ({ setDisplayNone, setDisplayBlock }) => {
           <IconButton edge="start" size="large" onClick={() => setOpen(true)}>
             <MenuOutlined sx={{ color: colors.grey[100] }} />
           </IconButton>
-          <Pages to="/" text="Properties" onClick={setDisplayBlock} />
+          <Pages to="/" text="Home" onClick={setDisplayBlock} />
+          <Pages to="/properties" text="New Properties" onClick={setDisplayBlock} />
           <Pages to="/marketplace" text="Marketplace" onClick={setDisplayBlock} />
           <Pages to="/about" text="About Us" onClick={setDisplayNone} />
           <Pages to="/help" text="Help" onClick={setDisplayNone} />
         </Box>
         {localStorage.getItem("token") ? (
-          <Box>
+          <Box> 
             <UserProfile/>
           </Box>
         ) : (

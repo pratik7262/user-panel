@@ -30,10 +30,10 @@ const Login = () => {
     if (json.success) {
       if (json.verified) {
         localStorage.setItem("token", json.authToken);
+        localStorage.setItem("userId", json.userId);
         navigate("/properties/sell");
       }
       else{
-       
         alert('Please Verify Your Email First');
       }
     } else {

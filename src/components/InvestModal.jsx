@@ -2,7 +2,7 @@ import { Button, Grid, Modal, Paper, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { colors } from "../theme";
 
-const InvestModal = ({ handleClose, open, propertyInfo,url,}) => {
+const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
   const paperStyle = {
     padding: 20,
     height: "30vh",
@@ -28,22 +28,17 @@ const InvestModal = ({ handleClose, open, propertyInfo,url,}) => {
         "auth-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        id: propertyInfo.id,
         name: propertyInfo.name,
-        sellerId:propertyInfo.sellerId,
+        sellerId: propertyInfo.user,
         units: units,
+        propertyId: propertyInfo.propertyId,
       }),
     });
-    let data={
-      id: propertyInfo.id,
-      name: propertyInfo.name,
-      units: units,
-    }
+    // console.log(propertyInfo);
     const json = await response.json();
-    console.log(data)
     if (json.resMSG) {
       alert(json.resMSG);
-      handleClose()
+      handleClose();
     } else {
       alert("Some Error Occured");
     }

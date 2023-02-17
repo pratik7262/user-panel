@@ -4,19 +4,6 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
 import { Header } from "./Header";
 
-let today = new Date().toISOString().slice(0, 10);
-
-const mckData = [
-  {
-    id: 1,
-    property: "Lorem ipsum dolor sit amet consectetur.",
-    date: today,
-    price: 500,
-    sunits:34,
-    runits:66,
-    details: "https://youtube.com",
-  }
-];
 
 const columns = [
   {
