@@ -14,14 +14,6 @@ const CustomTextField = ({ label, name, fullWidth, onChange, value }) => {
       color="neutral"
       sx={{
         my: 1,
-        "& .css-4zl7km-MuiFormLabel-root-MuiInputLabel-root": {
-          color: colors.grey[100],
-        },
-        "& .MuiOutlinedInput-root": {
-          "& fieldset": {
-            borderColor: colors.grey[100],
-          },
-        },
       }}
       name={name}
       onChange={onChange}
@@ -77,8 +69,8 @@ const AddProperty = () => {
         <Header title="Add Properties" subtitle="Add Properties For Sell" />
         <Container>
           <form onSubmit={onSubmit} encType="multipart/form-data">
-            <Box my={4} borderRadius={1} p={2} bgcolor={colors.primary[400]}>
-              <Typography variant="h3" mb={2} color={colors.grey[100]}>
+            <Box my={4} borderRadius={1} p={2} sx={{bgcolor:'white'}}>
+              <Typography variant="h3" mb={2} color={colors.grey[900]}>
                 Property Details
               </Typography>
               <CustomTextField
@@ -118,22 +110,15 @@ const AddProperty = () => {
                 <CustomTextField onChange={onChange} label="Area" name="area" />
               </Stack>
               <Box mt={3} display="flex" alignItems="center">
-                <Typography variant="h4" mr={2} color={colors.grey[100]}>
+                <Typography variant="h4" mr={2} color={colors.grey[900]}>
                   Add Picture :
                 </Typography>
                 <TextField
                   sx={{
-                    my: 1,
-                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
-                      {
-                        color: colors.grey[100],
-                      },
-                    "& .css-4zl7km-MuiFormLabel-root-MuiInputLabel-root": {
-                      color: colors.grey[100],
-                    },
+                   
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: colors.grey[100],
+                        borderColor: colors.grey[900],
                       },
                     },
                   }}

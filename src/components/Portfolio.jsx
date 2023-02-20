@@ -21,7 +21,7 @@ function Portfolio() {
     setDopen(false);
   }; //handles onclose
 
-  const isSold = async (propertyId, name) => {
+  const isSold = async (propertyId, name,id) => {
     const res = await fetch(
       `http://localhost:5000/api/property/issold/${propertyId}`
     );
@@ -29,7 +29,7 @@ function Portfolio() {
     if (!json.sold) {
       alert("Property Is Not Sold Yet.");
     } else {
-      setPropertyInfo({ propertyId: propertyId, name: name });
+      setPropertyInfo({ propertyId: propertyId, name: name,id:id, });
       handleOpen();
     }
   };
@@ -91,6 +91,20 @@ function Portfolio() {
       },
     },
     {
+      field: "price",
+      headerName: "Price Per Unit",
+      headerAlign: "left",
+      type: Date,
+      align: "left",
+      renderCell: ({ row: { price } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {price}
+          </Typography>
+        );
+      },
+    },
+    {
       field: "details",
       headerName: "Details",
       headerAlign: "center",
@@ -117,12 +131,12 @@ function Portfolio() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { propertyId, name } }) => {
+      renderCell: ({ row: { propertyId, name ,id} }) => {
         return (
           <Button
             onClick={() => {
              
-              isSold(propertyId, name);
+              isSold(propertyId,name,id);
             }}
             color="blue"
             variant="contained"

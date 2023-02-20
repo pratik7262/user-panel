@@ -23,10 +23,10 @@ function Marketplace() {
     );
     const json = await resp.json();
     setInvestedProperties(json.listedProperty);
-    console.log(json.listedProperty)
   };
   useEffect(() => {
     getProperties();
+    
   }, []);
 
   const columns = [
@@ -57,6 +57,20 @@ function Marketplace() {
       },
     },
     {
+      field: "price",
+      headerName: "Price",
+      headerAlign: "left",
+      type: Date,
+      align: "left",
+      renderCell: ({ row: { price } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {price}
+          </Typography>
+        );
+      },
+    },
+    {
       field: "details",
       headerName: "Details",
       headerAlign: "center",
@@ -76,7 +90,7 @@ function Marketplace() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { propertyId, name, user } }) => {
+      renderCell: ({ row: { propertyId, name, user,price } }) => {
         let isOwner = false;
         const setIsOwner = () => {
           if (user === localStorage.getItem("userId")) {
@@ -89,8 +103,9 @@ function Marketplace() {
           <Button
             disabled={setIsOwner()}
             onClick={() => {
-              setPropertyInfo({ propertyId, name, user });
+              setPropertyInfo({ propertyId, name, user,price });
               handleOpen();
+              
             }}
             color="blue"
             variant="contained"

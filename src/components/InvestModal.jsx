@@ -29,12 +29,13 @@ const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
       },
       body: JSON.stringify({
         name: propertyInfo.name,
+        price:propertyInfo.price,
         sellerId: propertyInfo.user,
         units: units,
         propertyId: propertyInfo.propertyId,
       }),
     });
-    // console.log(propertyInfo);
+    console.log(propertyInfo);
     const json = await response.json();
     if (json.resMSG) {
       alert(json.resMSG);

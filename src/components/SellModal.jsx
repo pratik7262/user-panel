@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { colors } from "../theme";
 
 const SellModal = ({ handleClose, open, propertyInfo }) => {
+  console.log(propertyInfo);
   const paperStyle = {
     padding: 20,
     height: "30vh",
@@ -17,34 +18,40 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
     p: 4,
   };
 
-  const [units, setUnits] = useState(0);
+  const [details, setDetails] = useState({ units: 0, price: 0 });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/listed/listproperty", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        id: propertyInfo.id,
-        name: propertyInfo.name,
-        units: units,
-      }),
-    });
+    const response = await fetch(
+      "http://localhost:5000/api/listed/listproperty",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          propertyId: propertyInfo.propertyId,
+          name: propertyInfo.name,
+          units: details.units,
+          price: details.price,
+          id:propertyInfo.id
+        }),
+      }
+    );
+
     const json = await response.json();
 
     if (json.resMSG) {
       alert(json.resMSG);
-      handleClose()
+      handleClose();
     } else {
-      alert("Please Verify Your Email First");
+      alert("Some Error Occured");
     }
   };
 
   const onChange = (e) => {
-    setUnits(e.target.value);
+    setDetails({ ...details, [e.target.name]: e.target.value });
   };
 
   return (
@@ -65,6 +72,15 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
                 required
                 sx={{ my: 1 }}
                 name="units"
+                onChange={onChange}
+              />
+              <TextField
+                label="Price"
+                placeholder="Enter Price At which You Want To Sell"
+                fullWidth
+                required
+                sx={{ my: 1 }}
+                name="price"
                 onChange={onChange}
               />
               <Button
