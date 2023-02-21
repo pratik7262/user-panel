@@ -3,7 +3,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Grid,
   Typography,
 } from "@mui/material";
@@ -23,7 +22,8 @@ const NewProperties = () => {
       .then((response) => response.json())
       .then((data) => setProperty(data.properties));
   }, []);
-  console.log(property);
+
+  
   return (
     <>
       <Grid
@@ -42,7 +42,7 @@ const NewProperties = () => {
                 sx={{
                   bgcolor: colors.primary[400],
                   width: "100%",
-                  maxHeight: 350,
+                  maxHeight: 450,
                 }}
               >
                 <img src={`http://localhost:5000/${item.img}`} alt={item.img} style={{width:'100%'}}/>
@@ -71,11 +71,18 @@ const NewProperties = () => {
                   >
                     Price Per Unit: {100}
                   </Typography>
+                  <Typography
+                    color={colors.grey[100]}
+                    textAlign="center"
+                    variant="h5"
+                    fontWeight={700}
+                  >
+                    Owner: {item.userName}
+                  </Typography>
                 </CardContent>
                 <CardActions
                   sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  
+                >                  
                   <Button
                     color="blue"
                     onClick={() => {
@@ -88,7 +95,6 @@ const NewProperties = () => {
                       handleOpen();
                     }}
                     variant="contained"
-                    disabled={item.user===localStorage.userId}
                   >
                     Invest
                   </Button>

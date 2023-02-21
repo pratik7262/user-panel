@@ -13,7 +13,7 @@ function Marketplace() {
   const handleClose = () => setOpen(false);
   const getProperties = async () => {
     const resp = await fetch(
-      "http://localhost:5000/api/listed//alllistedproperty",
+      "http://localhost:5000/api/listed/alllistedproperty",
       {
         method: "GET",
         headers: {
@@ -21,15 +21,27 @@ function Marketplace() {
         },
       }
     );
+    console.log(resp)
     const json = await resp.json();
     setInvestedProperties(json.listedProperty);
   };
   useEffect(() => {
     getProperties();
-    
   }, []);
 
   const columns = [
+    {
+      field: "genaratedPropertyId",
+      headerName: "id",
+      flex: 1,
+      renderCell: ({ row: { genaratedPropertyId } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {genaratedPropertyId}
+          </Typography>
+        );
+      },
+    },
     {
       field: "name",
       headerName: "Property",
@@ -38,6 +50,18 @@ function Marketplace() {
         return (
           <Typography variant="h5" color={colors.grey[100]}>
             {name}
+          </Typography>
+        );
+      },
+    },
+    {
+      field: "userName",
+      headerName: "Owner",
+      flex: 1,
+      renderCell: ({ row: { userName } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {userName}
           </Typography>
         );
       },
@@ -90,22 +114,21 @@ function Marketplace() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { propertyId, name, user,price } }) => {
-        let isOwner = false;
-        const setIsOwner = () => {
-          if (user === localStorage.getItem("userId")) {
-            isOwner = true;
-            return isOwner;
-          }
-          return false;
-        };
+      renderCell: ({ row: { propertyId, name, user, price } }) => {
+        // let isOwner = false;
+        // const setIsOwner = () => {
+        //   if (user === localStorage.getItem("userId")) {
+        //     isOwner = true;
+        //     return isOwner;
+        //   }
+        //   return false;
+        // };
         return (
           <Button
-            disabled={setIsOwner()}
+            // disabled={setIsOwner()}
             onClick={() => {
-              setPropertyInfo({ propertyId, name, user,price });
+              setPropertyInfo({ propertyId, name, user, price });
               handleOpen();
-              
             }}
             color="blue"
             variant="contained"
@@ -119,10 +142,10 @@ function Marketplace() {
   return (
     <>
       <Box m="10px 10px 0">
-        <Header title="Marketplace" />
+      <Header title="Marketplace"/>
         <Box
           m="40px 0 0 0"
-          height="65vh"
+          height="75vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",

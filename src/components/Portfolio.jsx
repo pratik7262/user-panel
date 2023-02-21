@@ -3,8 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
 import DetailsModal from "./DetailsModal";
-import { Header } from "./Header";
 import SellModal from "./SellModal";
+import { Header } from "./Header";
 
 function Portfolio() {
   const [open, setOpen] = React.useState(false); //states open of invest modal
@@ -21,7 +21,7 @@ function Portfolio() {
     setDopen(false);
   }; //handles onclose
 
-  const isSold = async (propertyId, name,id) => {
+  const isSold = async (propertyId, name, id) => {
     const res = await fetch(
       `http://localhost:5000/api/property/issold/${propertyId}`
     );
@@ -29,7 +29,7 @@ function Portfolio() {
     if (!json.sold) {
       alert("Property Is Not Sold Yet.");
     } else {
-      setPropertyInfo({ propertyId: propertyId, name: name,id:id, });
+      setPropertyInfo({ propertyId: propertyId, name: name, id: id });
       handleOpen();
     }
   };
@@ -64,6 +64,18 @@ function Portfolio() {
   }, []);
 
   const columns = [
+    {
+      field: "genaratedPropertyId",
+      headerName: "id",
+      flex: 1,
+      renderCell: ({ row: { genaratedPropertyId } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {genaratedPropertyId}
+          </Typography>
+        );
+      },
+    },
     {
       field: "name",
       headerName: "Property",
@@ -131,12 +143,11 @@ function Portfolio() {
       headerAlign: "center",
       align: "center",
       flex: 1,
-      renderCell: ({ row: { propertyId, name ,id} }) => {
+      renderCell: ({ row: { propertyId, name, id } }) => {
         return (
           <Button
             onClick={() => {
-             
-              isSold(propertyId,name,id);
+              isSold(propertyId, name, id);
             }}
             color="blue"
             variant="contained"
@@ -147,13 +158,14 @@ function Portfolio() {
       },
     },
   ];
+
   return (
     <>
       <Box m="10px 10px 0">
         <Header title="Holdings" />
         <Box
           m="40px 0 0 0"
-          height="65vh"
+          height="75vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",

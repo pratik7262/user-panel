@@ -17,14 +17,26 @@ const ApprovedProperties = () => {
         },
       }
     );
-    const json=await responce.json();
-    setApprovedProperties(json.properties)
+    const json = await responce.json();
+    setApprovedProperties(json.properties);
   };
   useEffect(() => {
     fetchData();
   }, []);
 
   const columns = [
+    {
+      field: "id",
+      headerName: "id",
+      flex: 1,
+      renderCell: ({ row: { id } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {id}
+          </Typography>
+        );
+      },
+    },
     {
       field: "title",
       headerName: "Property",
@@ -99,6 +111,7 @@ const ApprovedProperties = () => {
       },
     },
   ];
+  
   return (
     <Box m={2}>
       <Header title="Approved Properties" />

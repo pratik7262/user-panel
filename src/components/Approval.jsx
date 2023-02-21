@@ -1,6 +1,7 @@
 import { Button, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { colors } from "../theme";
 import { Header } from "./Header";
@@ -19,18 +20,43 @@ const Approval = () => {
         },
       }
     );
-    const json=await responce.json();
-    setPendingProperties(json.properties)
+    const json = await responce.json();
+    setPendingProperties(json.properties);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const deleteProp = async (id) => {
+    const res = await axios.get(
+      `http://localhost:5000/api/property/deleteProperty/${id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    alert(res.data.resMSG);
+  };
+
   const columns = [
     {
-      field: "title",
-      headerName: "Property",
+      field: "id",
+      headerName: "id",
       flex: 1,
-      renderCell: ({ row: {title} }) => {
+      renderCell: ({ row: { id } }) => {
+        return (
+          <Typography variant="h5" color={colors.grey[100]}>
+            {id}
+          </Typography>
+        );
+      },
+    },
+    {
+      field: "title",
+      headerName: "Name",
+      flex: 1,
+      renderCell: ({ row: { title } }) => {
         return (
           <Typography variant="h5" color={colors.grey[100]}>
             {title}
@@ -68,9 +94,9 @@ const Approval = () => {
       field: "details",
       headerName: "Details",
       headerAlign: "center",
-      align:"center",
+      align: "center",
       flex: 1,
-      renderCell: ({ row: { details } }) => {
+      renderCell: ({ row: { id } }) => {
         return (
           <Button color="blue" variant="contained">
             details
@@ -101,14 +127,34 @@ const Approval = () => {
         );
       },
     },
+    {
+      field: "remove",
+      headerName: "Delete Property",
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+      renderCell: ({ row: { _id } }) => {
+        return (
+          <Button
+            color="error"
+            onClick={() => {
+              deleteProp(_id);
+            }}
+            variant="contained"
+          >
+            Delete
+          </Button>
+        );
+      },
+    },
   ];
 
   return (
     <Box m={2}>
-      <Header title="Pending Approvals" />
+      <Header title="Pending Properties" />
       <Box
         m="40px 0 0 0"
-        height="65vh"
+        height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",

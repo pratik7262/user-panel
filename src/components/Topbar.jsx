@@ -1,4 +1,4 @@
-import { AccountCircleOutlined, MenuOutlined } from "@mui/icons-material";
+import {  MenuOutlined } from "@mui/icons-material";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -34,7 +34,7 @@ export const Topbar = ({ setDisplayNone, setDisplayBlock }) => {
         bgcolor={colors.primary[400]}
         justifyContent="space-between"
         alignItems="center"
-        p={2}
+        p={1}
         zIndex={2}
       >
         <Box

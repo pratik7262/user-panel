@@ -3,7 +3,6 @@ import { Stack } from "@mui/system";
 import axios from "axios";
 import React, { useState } from "react";
 import { colors } from "../theme";
-import { Header } from "./Header";
 
 const CustomTextField = ({ label, name, fullWidth, onChange, value }) => {
   return (
@@ -14,6 +13,22 @@ const CustomTextField = ({ label, name, fullWidth, onChange, value }) => {
       color="neutral"
       sx={{
         my: 1,
+        "& .css-5jrpmv-MuiFormLabel-root-MuiInputLabel-root ": {
+          color: colors.grey[100],
+        },
+        "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
+          border: "2px solid black",
+          borderRadius: "5px",
+          bgcolor: "#e8f0fe",
+        },
+        "& .css-4zl7km-MuiFormLabel-root-MuiInputLabel-root": {
+          color: colors.grey[900],
+        },
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": {
+            borderColor: colors.grey[100],
+          },
+        },
       }}
       name={name}
       onChange={onChange}
@@ -28,12 +43,14 @@ const AddProperty = () => {
     title: "",
     description: "",
     address: "",
+    country: "",
+    zipCode: "",
     state: "",
     city: "",
     price: 0,
     area: 0,
   });
-  
+
   const formData = new FormData();
   formData.append("title", details.title);
   formData.append("description", details.description);
@@ -42,18 +59,24 @@ const AddProperty = () => {
   formData.append("city", details.city);
   formData.append("price", details.price);
   formData.append("area", details.area);
+  formData.append("country", details.country);
+  formData.append("zipCode", details.zipCode);
   formData.append("img", img);
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-     const res=await axios.post("http://localhost:5000/api/property/addproperty",formData,{
-      headers:{
-        'auth-token':localStorage.getItem('token')
+      const res = await axios.post(
+        "http://localhost:5000/api/property/addproperty",
+        formData,
+        {
+          headers: {
+            "auth-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      if (res.data.success) {
+        alert(res.data.responseMsg);
       }
-     }) 
-     if(res.data.success){
-      alert(res.data.responseMsg)
-     }  
     } catch (error) {
       alert(error);
     }
@@ -66,11 +89,15 @@ const AddProperty = () => {
   return (
     <>
       <Box m="10px 10px 0">
-        <Header title="Add Properties" subtitle="Add Properties For Sell" />
         <Container>
           <form onSubmit={onSubmit} encType="multipart/form-data">
-            <Box my={4} borderRadius={1} p={2} sx={{bgcolor:'white'}}>
-              <Typography variant="h3" mb={2} color={colors.grey[900]}>
+            <Box
+              my={4}
+              borderRadius={1}
+              p={2}
+              sx={{ bgcolor: colors.primary[400] }}
+            >
+              <Typography variant="h3" mb={2} color={colors.grey[100]}>
                 Property Details
               </Typography>
               <CustomTextField
@@ -94,13 +121,24 @@ const AddProperty = () => {
                 label="Address"
                 name="address"
               />
+
               <Stack spacing={3} alignItems="center" direction="row">
+              <CustomTextField
+                  onChange={onChange}
+                  label="Country"
+                  name="country"
+                />
                 <CustomTextField
                   onChange={onChange}
                   label="State"
                   name="state"
                 />
                 <CustomTextField onChange={onChange} label="City" name="city" />
+                <CustomTextField
+                  onChange={onChange}
+                  label="Zip Code"
+                  name="zipCode"
+                />
                 <CustomTextField onChange={onChange} label="Type" name="type" />
                 <CustomTextField
                   onChange={onChange}
@@ -110,15 +148,22 @@ const AddProperty = () => {
                 <CustomTextField onChange={onChange} label="Area" name="area" />
               </Stack>
               <Box mt={3} display="flex" alignItems="center">
-                <Typography variant="h4" mr={2} color={colors.grey[900]}>
+                <Typography variant="h4" mr={2} color={colors.grey[100]}>
                   Add Picture :
                 </Typography>
                 <TextField
                   sx={{
-                   
+                    my: 1,
+                    "& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+                      {
+                        color: colors.grey[100],
+                      },
+                    "& .css-4zl7km-MuiFormLabel-root-MuiInputLabel-root": {
+                      color: colors.grey[100],
+                    },
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: colors.grey[900],
+                        borderColor: colors.grey[100],
                       },
                     },
                   }}
