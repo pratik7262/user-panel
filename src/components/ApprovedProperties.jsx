@@ -22,7 +22,7 @@ const ApprovedProperties = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [approvedProperties]);
 
   const columns = [
     {
@@ -91,22 +91,14 @@ const ApprovedProperties = () => {
       field: "approved",
       headerName: "Status",
       flex: 1,
+      align:'center',
       headerAlign: "center",
       renderCell: () => {
         return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            borderRadius="4px"
-            backgroundColor={colors.greenAccent[500]}
-          >
-            <Typography variant="h5" color={colors.grey[100]}>
+          
+            <Button color="green" variant="contained">
               Approved
-            </Typography>
-          </Box>
+            </Button>
         );
       },
     },

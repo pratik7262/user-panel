@@ -38,7 +38,9 @@ export const UserProfile = () => {
   }, []);
 
   const logOut = () => {
-    alert("loged out");
+    localStorage.removeItem('token');
+    window.location.reload()
+    alert("logged Out Successfully");
   };
   return (
     <Box sx={{ px: 1, mt: 1 }}>

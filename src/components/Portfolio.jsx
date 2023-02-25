@@ -61,7 +61,7 @@ function Portfolio() {
 
   useEffect(() => {
     getProperties();
-  }, []);
+  }, [investedProperties]);
 
   const columns = [
     {

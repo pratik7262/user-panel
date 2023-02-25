@@ -21,7 +21,7 @@ const NewProperties = () => {
     fetch("http://localhost:5000/api/property/approvedproperties") //api for the get request
       .then((response) => response.json())
       .then((data) => setProperty(data.properties));
-  }, []);
+  }, [property]);
 
   
   return (
@@ -45,7 +45,7 @@ const NewProperties = () => {
                   maxHeight: 450,
                 }}
               >
-                <img src={`http://localhost:5000/${item.img}`} alt={item.img} style={{width:'100%'}}/>
+                <img src={`http://localhost:5000/${item.img}`} alt={item.img} style={{width:'100%',height:200}}/>
                 <CardContent>
                   <Typography
                     color={colors.grey[100]}

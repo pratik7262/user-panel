@@ -1,4 +1,4 @@
-import { Button, Typography, useTheme } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
@@ -7,7 +7,6 @@ import { colors } from "../theme";
 import { Header } from "./Header";
 
 const Approval = () => {
-  const theme = useTheme();
   const [pendingProperties, setPendingProperties] = useState([]);
   const fetchData = async () => {
     const responce = await fetch(
@@ -26,7 +25,7 @@ const Approval = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [pendingProperties]);
 
   const deleteProp = async (id) => {
     const res = await axios.get(
@@ -108,22 +107,14 @@ const Approval = () => {
       field: "approved",
       headerName: "Status",
       flex: 1,
+      align:'center',
       headerAlign: "center",
       renderCell: () => {
         return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            borderRadius="4px"
-            backgroundColor={theme.palette.error.main}
-          >
-            <Typography variant="h5" color={colors.grey[100]}>
+            <Button color="error" variant="contained">
               Pending
-            </Typography>
-          </Box>
+            </Button>
+          
         );
       },
     },

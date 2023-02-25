@@ -8,7 +8,7 @@ import InvestModal from "./InvestModal";
 function Marketplace() {
   const [open, setOpen] = React.useState(false);
   const [propertyInfo, setPropertyInfo] = useState({});
-  const [investedProperties, setInvestedProperties] = useState([]);
+  const [listedProperties, setListedProperties] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const getProperties = async () => {
@@ -23,11 +23,11 @@ function Marketplace() {
     );
     console.log(resp)
     const json = await resp.json();
-    setInvestedProperties(json.listedProperty);
+    setListedProperties(json.listedProperty);
   };
   useEffect(() => {
     getProperties();
-  }, []);
+  }, [listedProperties]);
 
   const columns = [
     {
@@ -174,7 +174,7 @@ function Marketplace() {
             },
           }}
         >
-          <DataGrid rows={investedProperties} columns={columns} />
+          <DataGrid rows={listedProperties} columns={columns} />
           <InvestModal
             propertyInfo={propertyInfo}
             open={open}

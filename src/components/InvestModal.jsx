@@ -18,9 +18,11 @@ const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
   };
 
   const [units, setUnits] = useState(0);
+  const [disabled, setDisabled] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setDisabled(true)
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -29,7 +31,7 @@ const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
       },
       body: JSON.stringify({
         name: propertyInfo.name,
-        price:propertyInfo.price,
+        price: propertyInfo.price,
         sellerId: propertyInfo.user,
         units: units,
         propertyId: propertyInfo.propertyId,
@@ -39,9 +41,11 @@ const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
     const json = await response.json();
     if (json.resMSG) {
       alert(json.resMSG);
+      setDisabled(false)
       handleClose();
     } else {
       alert("Some Error Occured");
+      setDisabled(false)
     }
   };
 
@@ -70,6 +74,7 @@ const InvestModal = ({ handleClose, open, propertyInfo, url }) => {
                 onChange={onChange}
               />
               <Button
+                disabled={disabled}
                 type="submit"
                 color="primary"
                 variant="contained"

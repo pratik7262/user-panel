@@ -19,9 +19,10 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
   };
 
   const [details, setDetails] = useState({ units: 0, price: 0 });
-
+  const [disabled, setDisabled] = useState(false);
   const onSubmit = async (e) => {
     e.preventDefault();
+    setDisabled(true)
     const response = await fetch(
       "http://localhost:5000/api/listed/listproperty",
       {
@@ -35,7 +36,7 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
           name: propertyInfo.name,
           units: details.units,
           price: details.price,
-          id:propertyInfo.id
+          id: propertyInfo.id,
         }),
       }
     );
@@ -44,9 +45,11 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
 
     if (json.resMSG) {
       alert(json.resMSG);
+      setDisabled(false)
       handleClose();
     } else {
       alert("Some Error Occured");
+      setDisabled(false)
     }
   };
 
@@ -84,6 +87,7 @@ const SellModal = ({ handleClose, open, propertyInfo }) => {
                 onChange={onChange}
               />
               <Button
+                disabled={disabled}
                 type="submit"
                 color="primary"
                 variant="contained"

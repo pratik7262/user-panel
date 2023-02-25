@@ -32,6 +32,8 @@ const Login = () => {
         localStorage.setItem("token", json.authToken);
         localStorage.setItem("userId", json.userId);
         navigate("/properties/sell");
+        alert('Logged In Successfully')
+        window.location.reload()
       }
       else{
         alert('Please Verify Your Email First');

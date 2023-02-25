@@ -41,7 +41,7 @@ const ListedProperties = () => {
 
   useEffect(() => {
     getProperties();
-  }, []);
+  }, [listedProperty]);
 
   const columns = [
     {
